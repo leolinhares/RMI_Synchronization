@@ -6,7 +6,11 @@ import java.util.*;
 /**
  * Created by leonardo on 05/10/16.
  */
-public class Server implements ServerInterface{
+public class Coordinator implements CoordinatorInterface {
+
+    String resource = "../resource/";
+
+    //fazer scan no folder procurando arquivo e monta a tabela de resource
 
     // It maps a process id with its resource
     Map<Integer, String> resourceMap = new HashMap<Integer, String>();
@@ -17,14 +21,14 @@ public class Server implements ServerInterface{
 
     public static void main(String[] args) {
         try{
-            Server server = new Server();
-            ServerInterface stub = (ServerInterface) UnicastRemoteObject.exportObject(server,0);
+            Coordinator coordinator = new Coordinator();
+            CoordinatorInterface stub = (CoordinatorInterface) UnicastRemoteObject.exportObject(coordinator,0);
 
             //Binding
             Registry registry = LocateRegistry.getRegistry();
-            registry.rebind("ServerInterface", stub);
+            registry.rebind("CoordinatorInterface", stub);
 
-            System.out.println("Server ready");
+            System.out.println("Coordinator ready");
         }catch (Exception e){
             System.out.println("Error: " + e.toString());
             e.printStackTrace();

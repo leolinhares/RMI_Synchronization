@@ -7,13 +7,22 @@ import java.rmi.registry.Registry;
  * Created by leonardo on 05/10/16.
  */
 public class Client {
+
+    public Client() {
+
+    }
+
     public static void main(String[] args) {
 
         String host = (args.length < 1) ? null : args[0];
 
         try {
             Registry registry = LocateRegistry.getRegistry(host);
-            ServerInterface stub = (ServerInterface) registry.lookup("ServerInterface");
+            CoordinatorInterface stub = (CoordinatorInterface) registry.lookup("CoordinatorInterface");
+
+//            stub.requestResource();
+//            stub.releaseResource();
+//            stub.showRequestQueue();
 
         } catch (RemoteException e) {
             e.printStackTrace();

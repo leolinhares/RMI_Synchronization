@@ -22,6 +22,7 @@ public class Client {
         System.out.println("[1] - Request resource"); //adicionar condicional para nao mostrar quando cliente ativo
         System.out.println("[2] - Release resource");
         System.out.println("[3] - Show waiting queue");
+        System.out.println("[4] - Show status");
         System.out.println("[0] - EXIT");
         System.out.print("Enter option: ");
         option_teste = input_exit.nextInt();
@@ -41,16 +42,36 @@ public class Client {
             CoordinatorInterface stub = (CoordinatorInterface) registry.lookup("CoordinatorInterface");
 
             if (menu()==1) {
-                stub.requestResource(clientId);
-//            stub.releaseResource();
-//            stub.showRequestQueue();
+                boolean status = stub.requestResource(clientId);
+                if (status){
+                    System.out.println("Access to the Critic Section has been granted to the Client\n");
+                }else{
+                    System.out.println("Client is in the waiting queue\n");
+                }
+                menu();
             }else if (menu()==2){
                 stub.releaseResource(clientId);
+                System.out.println("Client has released the resource\n");
+                menu();
+
             }else if (menu()==3){
-                stub.showRequestQueue();
+                System.out.println(stub.showRequestQueue());
+                menu();
+
+            }else if (menu()==4){
+                boolean status = stub.clientStatus(clientId);
+                if (status){
+                    System.out.println("Client has the resource\n");
+                }else {
+                    System.out.println("Client is the waiting queue\n");
+                }
+                menu();
+
             }else{
-                //menu();
-                //sair
+                if (stub.clientStatus(clientId)){
+                    stub.releaseResource(clientId);
+                }
+
             }
 
 

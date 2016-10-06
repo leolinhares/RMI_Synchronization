@@ -7,6 +7,6 @@ import java.util.UUID;
 public interface CoordinatorInterface extends Remote{
     // returns true if the resource is available and allocate
     boolean requestResource(UUID processId);
-    void releaseResource(int processId);
+    void releaseResource(UUID processId);
     String showRequestQueue();
 }

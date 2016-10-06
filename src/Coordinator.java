@@ -36,7 +36,7 @@ public class Coordinator implements CoordinatorInterface {
     }
 
     @Override
-    public void releaseResource(int processId) {
+    public void releaseResource(UUID processId) {
 
     }
 

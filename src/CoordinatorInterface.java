@@ -7,7 +7,9 @@ import java.util.UUID;
  */
 public interface CoordinatorInterface extends Remote{
     // returns true if the resource is available and allocate
-    boolean requestResource(UUID processId) throws RemoteException;
-    void releaseResource(UUID processId) throws RemoteException;
+    boolean requestResource(UUID clientID) throws RemoteException;
+    void releaseResource(UUID clientID) throws RemoteException;
     String showRequestQueue() throws RemoteException;
+    boolean clientStatus(UUID clientID) throws RemoteException;
+
 }

@@ -21,27 +21,27 @@ public class Coordinator implements CoordinatorInterface {
     UUID processUsingResource = null;
 
     @Override
-    public boolean requestResource(UUID processId) throws RemoteException{
+    public boolean requestResource(UUID clientID) throws RemoteException{
 
         if (!resource){
-            processUsingResource = processId;
-            System.out.println("Client " + processId + " has the resource\n");
+            processUsingResource = clientID;
+            System.out.println("Client " + clientID + " has the resource\n");
             resource = true;
             return true;
         }else{
-            queue.add(processId);
-            System.out.println("Client " + processId + " was queued\n");
+            queue.add(clientID);
+            System.out.println("Client " + clientID + " was queued\n");
             return false;
         }
     }
 
     @Override
-    public void releaseResource(UUID processId) throws RemoteException{
+    public void releaseResource(UUID clientID) throws RemoteException{
         if (queue.isEmpty()){
             resource = false;
             processUsingResource = null;
         }else {
-            System.out.println("Client " + processId + " has released the resource\n");
+            System.out.println("Client " + clientID + " has released the resource\n");
             resource = false;
             UUID firstClient = (UUID) queue.poll();
             requestResource(firstClient);
@@ -57,6 +57,15 @@ public class Coordinator implements CoordinatorInterface {
             waitingList += "Client " + element + "\n";
         }
         return waitingList;
+    }
+
+    @Override
+    public boolean clientStatus(UUID clientID) throws RemoteException {
+        if (processUsingResource == clientID){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public static void main(String[] args) {

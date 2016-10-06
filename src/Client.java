@@ -45,7 +45,7 @@ public class Client {
 //            stub.releaseResource();
 //            stub.showRequestQueue();
             }else if (menu()==2){
-                stub.releaseResource();
+                stub.releaseResource(clientId);
             }else if (menu()==3){
                 stub.showRequestQueue();
             }else{

@@ -19,9 +19,9 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry(host);
             CoordinatorInterface stub = (CoordinatorInterface) registry.lookup("CoordinatorInterface");
 
-            stub.requestResource(clientId);
+            System.out.println(stub.requestResource(clientId));
 //            stub.releaseResource();
-//            stub.showRequestQueue();
+            System.out.println(stub.showRequestQueue());
 
         } catch (RemoteException e) {
             e.printStackTrace();

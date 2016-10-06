@@ -8,13 +8,6 @@ import java.util.*;
  */
 public class Coordinator implements CoordinatorInterface {
 
-    String resource = "../resource/";
-
-    //fazer scan no folder procurando arquivo e monta a tabela de resource
-
-    // It maps a process id with its resource
-    Map<Integer, String> resourceMap = new HashMap<Integer, String>();
-
     // queue of processes requesting a resource
     Queue queue = new LinkedList();
 
@@ -36,18 +29,19 @@ public class Coordinator implements CoordinatorInterface {
 
     }
 
+
     @Override
-    public boolean requestResource(String resourceURI, int processId) {
+    public boolean requestResource(UUID processId) {
         return false;
     }
 
     @Override
-    public void releaseResource(String resourceURI, int processId) {
+    public void releaseResource(int processId) {
 
     }
 
     @Override
-    public String showRequestQueue(String resourceURI) {
+    public String showRequestQueue() {
         return null;
     }
 

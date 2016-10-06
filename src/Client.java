@@ -2,15 +2,14 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.UUID;
 
 /**
  * Created by leonardo on 05/10/16.
  */
 public class Client {
 
-    public Client() {
-
-    }
+    private static UUID clientId = UUID.randomUUID();
 
     public static void main(String[] args) {
 
@@ -20,7 +19,7 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry(host);
             CoordinatorInterface stub = (CoordinatorInterface) registry.lookup("CoordinatorInterface");
 
-//            stub.requestResource();
+            stub.requestResource(clientId);
 //            stub.releaseResource();
 //            stub.showRequestQueue();
 

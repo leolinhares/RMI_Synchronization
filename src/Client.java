@@ -53,6 +53,7 @@ public class Client {
                 //sair
             }
 
+
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {

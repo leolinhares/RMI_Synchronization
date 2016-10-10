@@ -14,7 +14,7 @@ public class Coordinator implements CoordinatorInterface {
     }
 
     // queue of processes requesting a resource
-    Queue queue = new LinkedList();
+    Queue<UUID> queue = new LinkedList<UUID>();
 
     // true se ele tiver alocado, false caso contrario.
     boolean resource = false;
@@ -29,6 +29,7 @@ public class Coordinator implements CoordinatorInterface {
             resource = true;
             return true;
         }else{
+            //TODO: lidar com multiplos requests do mesmo cliente
             queue.add(clientID);
             System.out.println("Client " + clientID + " was queued\n");
             return false;
@@ -38,6 +39,7 @@ public class Coordinator implements CoordinatorInterface {
     @Override
     public void releaseResource(UUID clientID) throws RemoteException{
         if (queue.isEmpty()){
+            System.out.println("Client " + clientID + " has released the resource\n");
             resource = false;
             processUsingResource = null;
         }else {
@@ -61,6 +63,7 @@ public class Coordinator implements CoordinatorInterface {
 
     @Override
     public boolean clientStatus(UUID clientID) throws RemoteException {
+        //TODO: nao funciona ainda
         if (processUsingResource == clientID){
             return true;
         }else {

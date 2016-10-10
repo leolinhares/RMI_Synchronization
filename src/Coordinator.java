@@ -21,32 +21,32 @@ public class Coordinator implements CoordinatorInterface {
     UUID clientUsingResource = null;
 
     @Override
-    public int requestResource(UUID clientID) throws RemoteException{
+    public String requestResource(UUID clientID) throws RemoteException{
         if (!clientID.equals(clientUsingResource)){
             if (!resource){
                 clientUsingResource = clientID;
-                System.out.println("Client " + clientID + " has the resource\n");
                 resource = true;
-                return 0;
+                System.out.println("Client " + clientID + " has the resource\n");
+                return "Client " + clientID + " has the resource\n";
             }else{
                 if (!queue.contains(clientID)){
                     queue.add(clientID);
                     System.out.println("Client " + clientID + " was queued\n");
-                    return 1;
+                    return "Client " + clientID + " was queued\n";
                 }else{
                     System.out.println("Client " + clientID + " already queued\n");
-                    return 2;
+                    return "Client " + clientID + " already queued\n";
                 }
             }
         }else {
             System.out.println("Client " + clientID + " already has the resource\n");
-            return 3;
+            return "Client " + clientID + " already has the resource\n";
         }
 
     }
 
     @Override
-    public boolean releaseResource(UUID clientID) throws RemoteException{
+    public String releaseResource(UUID clientID) throws RemoteException{
         if (clientID.equals(clientUsingResource)){
             if (queue.isEmpty()){
                 System.out.println("Client " + clientID + " has released the resource\n");
@@ -58,32 +58,37 @@ public class Coordinator implements CoordinatorInterface {
                 UUID firstClient = (UUID) queue.poll();
                 requestResource(firstClient);
             }
-            return  true;
+            return "Client " + clientID + " has released the resource\n";
         }else{
-            return false;
+            System.out.println("Client " + clientID + " does not have the resource to release it\n");
+            return "Client " + clientID + " does not have the resource to release it\n";
         }
 
     }
 
     @Override
     public String showRequestQueue() throws RemoteException{
-        String waitingList = "";
-        Iterator iterator = queue.iterator();
-        while(iterator.hasNext()){
-            String element = String.valueOf(iterator.next());
-            waitingList += "Client " + element + "\n";
+        if (queue.isEmpty()){
+            return "Waiting queue is empty\n";
+        }else{
+            String waitingList = "";
+            Iterator iterator = queue.iterator();
+            while(iterator.hasNext()){
+                String element = String.valueOf(iterator.next());
+                waitingList += "Client " + element + "\n";
+            }
+            return waitingList;
         }
-        return waitingList;
     }
 
     @Override
-    public int clientStatus(UUID clientID) throws RemoteException {
+    public String clientStatus(UUID clientID) throws RemoteException {
         if (clientID.equals(clientUsingResource)){
-            return 0;
+            return "Client has the resource\n";
         }else if (queue.contains(clientID)){
-            return 1;
+            return "Client is the waiting queue\n";
         }else{
-            return 2;
+            return "Client is idle\n";
         }
     }
 

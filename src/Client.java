@@ -37,39 +37,13 @@ public class Client {
                 option_teste = input_exit.nextInt();
 
                 if (option_teste==1) {
-                    int status = stub.requestResource(clientId);
-                    if (status == 0){
-                        System.out.println("Access to the Critic Section has been granted to the Client\n");
-                    }else if (status == 1){
-                        System.out.println("Client is in the waiting queue\n");
-                    }else if (status == 2){
-                        System.out.println("Client already queued\n");
-                    }else {
-                        System.out.println("Client already has the resource\n");
-                    }
+                    System.out.println(stub.requestResource(clientId));
                 }else if (option_teste==2){
-                    boolean status = stub.releaseResource(clientId);
-                    if (status){
-                        System.out.println("Client has released the resource\n");
-                    }else {
-                        System.out.println("Client does not have the resource to release it\n");
-                    }
+                    System.out.println(stub.releaseResource(clientId));
                 }else if (option_teste==3){
-                    String queue = stub.showRequestQueue();
-                    if (queue.isEmpty()){
-                        System.out.println("Waiting queue is empty\n");
-                    }else {
-                        System.out.println(queue);
-                    }
+                    System.out.println(stub.showRequestQueue());
                 }else if (option_teste==4){
-                    int status = stub.clientStatus(clientId);
-                    if (status == 0){
-                        System.out.println("Client has the resource\n");
-                    }else if(status == 1){
-                        System.out.println("Client is the waiting queue\n");
-                    }else {
-                        System.out.println("Client is idle\n");
-                    }
+                    System.out.println(stub.clientStatus(clientId));
                 }else{
                     stub.removeClient(clientId);
                     break;

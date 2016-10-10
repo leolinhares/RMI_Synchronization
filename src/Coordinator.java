@@ -18,36 +18,51 @@ public class Coordinator implements CoordinatorInterface {
 
     // true se ele tiver alocado, false caso contrario.
     boolean resource = false;
-    UUID processUsingResource = null;
+    UUID clientUsingResource = null;
 
     @Override
-    public boolean requestResource(UUID clientID) throws RemoteException{
-
-        if (!resource){
-            processUsingResource = clientID;
-            System.out.println("Client " + clientID + " has the resource\n");
-            resource = true;
-            return true;
-        }else{
-            //TODO: lidar com multiplos requests do mesmo cliente
-            queue.add(clientID);
-            System.out.println("Client " + clientID + " was queued\n");
-            return false;
+    public int requestResource(UUID clientID) throws RemoteException{
+        if (!clientID.equals(clientUsingResource)){
+            if (!resource){
+                clientUsingResource = clientID;
+                System.out.println("Client " + clientID + " has the resource\n");
+                resource = true;
+                return 0;
+            }else{
+                if (!queue.contains(clientID)){
+                    queue.add(clientID);
+                    System.out.println("Client " + clientID + " was queued\n");
+                    return 1;
+                }else{
+                    System.out.println("Client " + clientID + " already queued\n");
+                    return 2;
+                }
+            }
+        }else {
+            System.out.println("Client " + clientID + " already has the resource\n");
+            return 3;
         }
+
     }
 
     @Override
-    public void releaseResource(UUID clientID) throws RemoteException{
-        if (queue.isEmpty()){
-            System.out.println("Client " + clientID + " has released the resource\n");
-            resource = false;
-            processUsingResource = null;
-        }else {
-            System.out.println("Client " + clientID + " has released the resource\n");
-            resource = false;
-            UUID firstClient = (UUID) queue.poll();
-            requestResource(firstClient);
+    public boolean releaseResource(UUID clientID) throws RemoteException{
+        if (clientID.equals(clientUsingResource)){
+            if (queue.isEmpty()){
+                System.out.println("Client " + clientID + " has released the resource\n");
+                resource = false;
+                clientUsingResource = null;
+            }else {
+                System.out.println("Client " + clientID + " has released the resource\n");
+                resource = false;
+                UUID firstClient = (UUID) queue.poll();
+                requestResource(firstClient);
+            }
+            return  true;
+        }else{
+            return false;
         }
+
     }
 
     @Override
@@ -62,13 +77,27 @@ public class Coordinator implements CoordinatorInterface {
     }
 
     @Override
-    public boolean clientStatus(UUID clientID) throws RemoteException {
-        //TODO: nao funciona ainda
-        if (processUsingResource == clientID){
-            return true;
-        }else {
-            return false;
+    public int clientStatus(UUID clientID) throws RemoteException {
+        if (clientID.equals(clientUsingResource)){
+            return 0;
+        }else if (queue.contains(clientID)){
+            return 1;
+        }else{
+            return 2;
         }
+    }
+
+    @Override
+    public void removeClient(UUID clientID) throws RemoteException {
+        if (clientID.equals(clientUsingResource)){
+            releaseResource(clientID);
+        }else {
+            if (queue.contains(clientID)){
+                queue.remove(clientID);
+            }
+        }
+        System.out.println("Client " + clientID + " exited\n");
+
     }
 
     public static void main(String[] args) {

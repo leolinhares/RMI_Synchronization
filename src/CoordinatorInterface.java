@@ -7,9 +7,10 @@ import java.util.UUID;
  */
 public interface CoordinatorInterface extends Remote{
 
-    boolean requestResource(UUID clientID) throws RemoteException;
-    void releaseResource(UUID clientID) throws RemoteException;
+    int requestResource(UUID clientID) throws RemoteException;
+    boolean releaseResource(UUID clientID) throws RemoteException;
     String showRequestQueue() throws RemoteException;
-    boolean clientStatus(UUID clientID) throws RemoteException;
+    int clientStatus(UUID clientID) throws RemoteException;
+    void removeClient(UUID clientID) throws RemoteException;
 
 }

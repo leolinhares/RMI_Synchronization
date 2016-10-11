@@ -10,15 +10,15 @@ import java.util.Scanner;
  */
 public class Client {
 
+    // A Global Unique ID for all Clients
     private static UUID clientId = UUID.randomUUID();
 
     public static void main(String[] args) {
 
         String host = (args.length < 1) ? null : args[0];
 
-
-
         try {
+            // Establish connection with the coordinator (Server)
             Registry registry = LocateRegistry.getRegistry(host);
             CoordinatorInterface stub = (CoordinatorInterface) registry.lookup("CoordinatorInterface");
 

@@ -13,16 +13,20 @@ public class Coordinator implements CoordinatorInterface {
         System.out.println("Coordinator Initialized");
     }
 
-    // queue of processes requesting a resource
+    // Queue of processes requesting a resource
     Queue<UUID> queue = new LinkedList<UUID>();
 
-    // true se ele tiver alocado, false caso contrario.
+    // True if the resource is allocated, False otherwise
     boolean resource = false;
+
+    // UUID of the client currently using the resource
     UUID clientUsingResource = null;
 
     @Override
     public String requestResource(UUID clientID) throws RemoteException{
+        // Check if the client already has the resource
         if (!clientID.equals(clientUsingResource)){
+            // Check if the resource is being used
             if (!resource){
                 clientUsingResource = clientID;
                 resource = true;

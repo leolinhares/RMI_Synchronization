@@ -26,23 +26,26 @@ public class Client {
                 int option_teste;
 
                 Scanner input_exit = new Scanner(System.in);
-                System.out.println("\n\n----------------------------");
-                System.out.println("Options:");
-                System.out.println("[1] - Request resource"); //adicionar condicional para nao mostrar quando cliente ativo
+                System.out.println("\n----------------------------");
+                System.out.println("\nOptions: \n");
+                System.out.println("[1] - Request resource");
                 System.out.println("[2] - Release resource");
                 System.out.println("[3] - Show waiting queue");
                 System.out.println("[4] - Show status");
-                System.out.println("[0] - EXIT");
+                System.out.println("[0] - EXIT \n");
                 System.out.print("Enter option: ");
                 option_teste = input_exit.nextInt();
+                System.out.println("");
 
                 if (option_teste==1) {
                     System.out.println(stub.requestResource(clientId));
                 }else if (option_teste==2){
                     System.out.println(stub.releaseResource(clientId));
                 }else if (option_teste==3){
+                    System.out.println("Waiting Queue:");
                     System.out.println(stub.showRequestQueue());
                 }else if (option_teste==4){
+                    System.out.print("Client Status: ");
                     System.out.println(stub.clientStatus(clientId));
                 }else{
                     stub.removeClient(clientId);

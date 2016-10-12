@@ -72,14 +72,19 @@ public class Coordinator implements CoordinatorInterface {
 
     @Override
     public String showRequestQueue() throws RemoteException{
+
+        int position = 1;
+
         if (queue.isEmpty()){
             return "Waiting queue is empty\n";
         }else{
             String waitingList = "";
             Iterator iterator = queue.iterator();
             while(iterator.hasNext()){
+//                System.out.print("["+position+"]: ");
                 String element = String.valueOf(iterator.next());
-                waitingList += "Client " + element + "\n";
+                waitingList += "["+position+"]: Client " + element + "\n";
+                position++;
             }
             return waitingList;
         }
